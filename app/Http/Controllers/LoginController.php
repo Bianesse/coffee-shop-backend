@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -25,7 +26,7 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         //if auth failed
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = auth('api')->attempt($credentials)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Email atau Password Anda salah'
@@ -34,8 +35,9 @@ class LoginController extends Controller
 
         return response()->json([
             'success' => true,
-            'user'    => auth()->user(),
+            'user'    => auth('api')->user(),
             'token'   => $token,
+            'exp' => auth()->factory()->getTTL() * 60
         ], 200);
     }
 
@@ -64,7 +66,7 @@ class LoginController extends Controller
 
     public function logout()
     {
-        auth()->logout();
+        $logout = auth('api')->logout();
         return response()->json(['message' => 'Successfully Logged Out']);
     }
 

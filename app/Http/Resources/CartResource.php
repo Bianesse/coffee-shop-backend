@@ -14,8 +14,12 @@ class CartResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $raw = $this->coffees()->select('name','type','price')->get();
+        //$raw = $this->coffees()->select('name','type','price')->get();
         $subtotal = $this->coffees->price * $this->amount;
+
+        $total = 0;
+        $total+=$subtotal;
+
         return 
         [
             'cartId' => $this->cartId,
@@ -24,6 +28,7 @@ class CartResource extends JsonResource
             'price' => $this->coffees->price,
             'amount' => $this->amount,
             'subtotal' => $subtotal,
+            'total' => $total,
         ];
     }
 }
