@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Coffee;
 use Illuminate\Http\Request;
 use App\Http\Resources\CartResource;
+use App\Models\CartItem;
 use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
@@ -24,10 +25,11 @@ class CartController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-        $add = Cart::create([
+        $add = CartItem::create([
+            'cartId' => 'CART01',
             'coffeeId' => $id,
             'size' => $request->size,
-            'amount' => $request->amount,
+            'quantity' => $request->amount,
         ]);
 
         return response()->json($add);
@@ -35,7 +37,7 @@ class CartController extends Controller
 
     public function show()
     {
-        $cart = Cart::with("coffees")->get();
+        $cart = CartItem::with(["carts", "coffees"])->get();
 
         return CartResource::collection($cart);
     }

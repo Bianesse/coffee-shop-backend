@@ -12,5 +12,12 @@ class Transaction extends Model
     protected $fillable = [
         'orderId',
         'total',
+        'paymentAmount',
+        'change',
     ];
+
+    public function transactionItems()
+    {
+        return $this->hasMany(TransactionItem::class);
+    }
 }

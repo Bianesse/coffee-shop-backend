@@ -18,8 +18,8 @@ class Cart extends Model
         "amount",
     ];
 
-    public function coffees(): BelongsTo
+    public function cartItems()
     {
-        return $this->belongsTo(Coffee::class, "coffeeId");
+        return $this->hasMany(CartItem::class);
     }
 }

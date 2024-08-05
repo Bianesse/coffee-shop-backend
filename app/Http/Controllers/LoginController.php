@@ -37,7 +37,7 @@ class LoginController extends Controller
             'success' => true,
             'user'    => auth('api')->user(),
             'token'   => $token,
-            'exp' => auth()->factory()->getTTL() * 60
+            'exp' => auth()->factory()->getTTL() * 60,
         ], 200);
     }
 

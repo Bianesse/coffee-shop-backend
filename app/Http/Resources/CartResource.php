@@ -15,10 +15,13 @@ class CartResource extends JsonResource
     public function toArray(Request $request): array
     {
         //$raw = $this->coffees()->select('name','type','price')->get();
-        $subtotal = $this->coffees->price * $this->amount;
-
+        $subtotal = $this->coffees->price * $this->quantity;
         $total = 0;
-        $total+=$subtotal;
+
+        foreach ($this->get() as $item) {
+            $sub = $item->coffees->price * $item->quantity;
+            $total+=$sub;
+        }
 
         return 
         [
@@ -26,7 +29,7 @@ class CartResource extends JsonResource
             'coffeeName' => $this->coffees->name,
             'size' => $this->size,
             'price' => $this->coffees->price,
-            'amount' => $this->amount,
+            'amount' => $this->quantity,
             'subtotal' => $subtotal,
             'total' => $total,
         ];

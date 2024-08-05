@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Coffee;
+use App\Models\CartItem;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\TransactionItem;
 use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
@@ -20,10 +22,10 @@ class TransactionController extends Controller
             return response()->json($validator->errors()->toJson(), 422);
         }
 
-        $cart = Cart::with("coffees")->get();
+        $cart = CartItem::with(["carts","coffees"])->get();
         $total = 0;
         foreach ($cart as $item) {
-            $sum = $item->coffees->price * $item->amount;
+            $sum = $item->coffees->price * $item->quantity;
             $total+=$sum;
         }
 
@@ -34,11 +36,26 @@ class TransactionController extends Controller
         $code = "ORD".rand(0,2000);
 
         $transaction = Transaction::create([
-            "orderId"=> $code,
-            "total"=> $total,
+            "orderId" => $code,
+            "total" => $total,
+            "paymentAmount" => $request->money,
+            "change" => $request->money-$total,
         ]);
 
-        $removeCart = Cart::truncate();
-        return response()->json($transaction);
+        foreach ($cart as $v){
+            $transactionItem = TransactionItem::create([
+            "orderId" => $code,
+            "coffeeId" => $v->coffeeId,
+            "quantity" => $v->quantity,
+        ]);
+        $itemSave[] = $transactionItem;
+        }
+        
+
+        $removeCart = CartItem::where('cartId', 'CART01')->delete();
+        return response()->json([
+            'detail' => $transaction,
+            'item' => $transactionItem,
+        ]);
     }
 }

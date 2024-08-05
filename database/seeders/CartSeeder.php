@@ -14,9 +14,7 @@ class CartSeeder extends Seeder
     public function run(): void
     {
         Cart::insert([
-            ["coffeeId" => "2", "size" => "L", "amount" => "2"],
-            ["coffeeId" => "1", "size" => "M", "amount" => "3"],
-            ["coffeeId" => "3", "size" => "S", "amount" => "1"],
+            ["cartId" => 'CART01'],
         ]);
     }
 }

@@ -14,9 +14,27 @@ class TransactionSeeder extends Seeder
     public function run(): void
     {
         Transaction::insert([
-            ["orderId" => "ORD2283", "total"=> "100000"],
-            ["orderId" => "ORD2413", "total"=> "50000"],
-            ["orderId" => "ORD1225", "total"=> "70000"],
+            [
+                'orderId' => 'ORD232',
+                'total' => 100000,
+                'paymentAmount' => 100000,
+                'change' => 0,
+                'transaction_date' => now(),
+            ],
+            [
+                'orderId' => 'ORD212',
+                'total' => 120000,
+                'paymentAmount' => 150000,
+                'change' => 30000,
+                'transaction_date' => now(),
+            ],
+            [
+                'orderId' => 'ORD132',
+                'total' => 45000,
+                'paymentAmount' => 50000,
+                'change' => 5000,
+                'transaction_date' => now(),
+            ],
         ]);
     }
 }
