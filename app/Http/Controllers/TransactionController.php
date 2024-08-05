@@ -23,6 +23,10 @@ class TransactionController extends Controller
         }
 
         $cart = CartItem::with(["carts","coffees"])->get();
+
+        if (Cart::where("cartId", 'CART01')->count() > 0) {
+            return response()->json(['message' => 'Cart Cant Be Empty!']);
+        }
         $total = 0;
         foreach ($cart as $item) {
             $sum = $item->coffees->price * $item->quantity;
