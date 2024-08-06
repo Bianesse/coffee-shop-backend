@@ -27,8 +27,9 @@ Route::post("/login", [LoginController::class,"index"])->name("login");
 Route::post("/logout", [LoginController::class,"logout"])->name("logout");
 Route::post("/registration", [LoginController::class,"regis"])->name("regis");
 
-Route::get('/user', function (Request $request) {
+Route::get('/user', function () {
+    $a = auth()->user();
     return response()->json([
-        'user'    => auth('api')->user(),
+        'user'    => $a,
     ], 200);
 });

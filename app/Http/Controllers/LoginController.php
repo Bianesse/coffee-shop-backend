@@ -50,7 +50,6 @@ class LoginController extends Controller
             'role'  => 'required',
         ]);
 
-        //if validation fails
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 422);
         }
