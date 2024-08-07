@@ -17,19 +17,24 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::get("/coffee", [CoffeeController::class,"show"])->name("showAll");
-Route::get("/coffee/{id}", [CoffeeController::class,"detail"])->name("showDetail");
-Route::post("/coffee/{id}/add", [CartController::class,"index"])->name("addCart");
-Route::get("/cart", [CartController::class,"show"])->name("showCart");
-Route::post("/transaction", [TransactionController::class,"index"])->name("addTransaction");
 
-Route::post("/login", [LoginController::class,"index"])->name("login");
-Route::post("/logout", [LoginController::class,"logout"])->name("logout");
-Route::post("/registration", [LoginController::class,"regis"])->name("regis");
+Route::middleware(['auth.api'])->group(function () {
+    Route::get("/coffee", [CoffeeController::class, "show"])->name("showAll");
+    Route::get("/coffee/{id}", [CoffeeController::class, "detail"])->name("showDetail");
+    Route::post("/coffee/{id}/add", [CartController::class, "index"])->name("addCart");
+    Route::get("/cart", [CartController::class, "show"])->name("showCart");
+    Route::post("/transaction", [TransactionController::class, "index"])->name("addTransaction");
+    Route::post("/logout", [LoginController::class, "logout"])->name("logout");
 
-Route::get('/user', function () {
-    $a = auth()->user();
-    return response()->json([
-        'user'    => $a,
-    ], 200);
+    Route::get('/user', function () {
+        return response()->json([
+            'user'    => auth()->user(),
+        ], 200);
+    });
 });
+
+Route::middleware(['logout.api'])->group(function () {
+    Route::post("/login", [LoginController::class, "index"])->name("login");
+});
+
+Route::post("/registration", [LoginController::class, "regis"])->name("regis");
