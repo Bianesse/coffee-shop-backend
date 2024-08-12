@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth.api'])->group(function () {
+//Route::middleware(['auth.api','role.api:1,2'])->group(function () {
     Route::get("/coffee", [CoffeeController::class, "show"])->name("showAll");
     Route::get("/coffee/{id}", [CoffeeController::class, "detail"])->name("showDetail");
     Route::post("/coffee/{id}/add", [CartController::class, "index"])->name("addCart");
@@ -31,7 +31,7 @@ Route::middleware(['auth.api'])->group(function () {
             'user'    => auth()->user(),
         ], 200);
     });
-});
+//});
 
 Route::middleware(['logout.api'])->group(function () {
     Route::post("/login", [LoginController::class, "index"])->name("login");

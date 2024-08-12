@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CartCollection;
 use App\Models\Cart;
 use App\Models\Coffee;
 use Illuminate\Http\Request;
@@ -39,6 +40,6 @@ class CartController extends Controller
     {
         $cart = CartItem::with(["carts", "coffees"])->get();
 
-        return CartResource::collection($cart);
+        return new CartCollection($cart);
     }
 }
