@@ -11,6 +11,11 @@ class Coffee extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "name","type","description","image","price"
+    ];
+    public $timestamps = false;
+
     public function cartItems()
     {
         return $this->hasMany(CartItem::class);
@@ -19,5 +24,10 @@ class Coffee extends Model
     public function transactionItems()
     {
         return $this->hasMany(TransactionItem::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
     }
 }
