@@ -33,13 +33,13 @@ class RatingObserver
 
     private function updateRating(Coffee $coffee)
     {
-        $count = $coffee->ratings()->count();
+        $count = $coffee->ratings()->count('rating');
         $sum = $coffee->ratings()->sum('rating');
 
-        $average = $count ? $sum / $count : 0;
-
+        $average = $count > 0 ? $sum / $count : 0;
+        
         $coffee->update([
-            'rate' => $average,
+            'rate'=> $average,
         ]);
     }
 }

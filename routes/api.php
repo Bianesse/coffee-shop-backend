@@ -49,11 +49,6 @@ Route::middleware(['auth.api', 'role.api:2'])->group(function ()
     Route::get("/cart", [CartController::class, "show"])->name("showCart");
     Route::post("/transaction", [TransactionController::class, "index"])->name("addTransaction");
 
-    Route::get('/user', function () {
-        return response()->json([
-            'user'    => auth()->user(),
-        ], 200);
-    });
     Route::get("/cashier", function () {
         return response()->json([
             'message' => 'You are Cashier'
@@ -62,7 +57,7 @@ Route::middleware(['auth.api', 'role.api:2'])->group(function ()
 });
 
 
-//user
+//User
 Route::middleware(['auth.api', 'role.api:3'])->group(function () 
 {
     Route::prefix('/user')->group(function () {
@@ -85,4 +80,10 @@ Route::middleware(['logout.api'])->group(function () {
 
 Route::middleware(['auth.api'])->group(function () {
     Route::post("/logout", [LoginController::class, "logout"])->name("logout");
+
+    Route::get('/users', function () {
+        return response()->json([
+            'user'    => auth()->user(),
+        ], 200);
+    });
 });

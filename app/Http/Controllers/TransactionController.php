@@ -59,7 +59,7 @@ class TransactionController extends Controller
         $removeCart = CartItem::where('cartId', 'CART01')->delete();
         return response()->json([
             'detail' => $transaction,
-            'item' => $transactionItem,
+            'item' => $itemSave,
         ]);
     }
 }

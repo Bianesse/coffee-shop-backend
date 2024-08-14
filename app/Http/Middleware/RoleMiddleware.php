@@ -23,4 +23,5 @@ class RoleMiddleware
             'message' => 'Not Authorized'
         ]);
     }
+    
 }

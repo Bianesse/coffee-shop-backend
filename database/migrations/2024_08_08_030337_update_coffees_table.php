@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('coffees', function (Blueprint $table) {
             $table->string('image')->after('description')->nullable(true);
-            $table->float('rate')->after('image')->default(0);
+            $table->decimal('rate')->after('image')->default(0);
             $table->string('review')->after('rate')->default('');
         });
     }

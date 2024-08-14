@@ -12,7 +12,7 @@ class Coffee extends Model
     use HasFactory;
 
     protected $fillable = [
-        "name","type","description","image","price"
+        "name","type","description","image","price","rate"
     ];
     public $timestamps = false;
 
