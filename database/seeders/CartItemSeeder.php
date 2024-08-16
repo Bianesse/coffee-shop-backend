@@ -19,18 +19,21 @@ class CartItemSeeder extends Seeder
                 'coffeeId' => 1,
                 'size' => 'S',
                 'quantity' => 2,
+                'subtotal' => 20000,
             ],
             [
                 'cartId' => 'CART01',
                 'coffeeId' => 2,
                 'size' => 'M',
                 'quantity' => 4,
+                'subtotal' => 60000,
             ],
             [
                 'cartId' => 'CART01',
                 'coffeeId' => 3,
                 'size' => 'L',
                 'quantity' => 1,
+                'subtotal' => 24000,
             ],
         ]);
     }

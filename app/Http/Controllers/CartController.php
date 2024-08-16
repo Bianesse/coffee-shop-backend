@@ -8,6 +8,7 @@ use App\Models\Coffee;
 use Illuminate\Http\Request;
 use App\Http\Resources\CartResource;
 use App\Models\CartItem;
+use App\Service\CountPrice;
 use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
@@ -19,18 +20,21 @@ class CartController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'size'     => 'required', 
-            'amount'   => 'required',
+            'quantity'   => 'required',
         ]);
 
         //check if validation fails
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
+        $count = new CountPrice();
+        $subtotal = $count->price_request($request, true, $id);
         $add = CartItem::create([
             'cartId' => 'CART01',
             'coffeeId' => $id,
             'size' => $request->size,
-            'quantity' => $request->amount,
+            'quantity' => $request->quantity,
+            'subtotal' => $subtotal,
         ]);
 
         return response()->json($add);
@@ -38,7 +42,7 @@ class CartController extends Controller
 
     public function show()
     {
-        $cart = CartItem::with(["carts", "coffees"])->get();
+        $cart = CartItem::with(["carts", "coffees","prices"])->get();
 
         return new CartCollection($cart);
     }

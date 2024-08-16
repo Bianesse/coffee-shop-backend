@@ -11,7 +11,7 @@ class CartItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'cartId', 'coffeeId', 'quantity', "size"
+        'cartId', 'coffeeId', 'quantity', "size", "subtotal"
     ];
 
     public function carts()
@@ -21,5 +21,10 @@ class CartItem extends Model
     public function coffees(): BelongsTo
     {
         return $this->belongsTo(Coffee::class, "coffeeId");
+    }
+
+    public function prices(): BelongsTo
+    {
+        return $this->belongsTo(Price::class, "coffeeId");
     }
 }

@@ -16,33 +16,45 @@ class TransactionItemSeeder extends Seeder
         TransactionItem::insert([
             [
                 'orderId' => 'ORD232',
-                'coffeeId' => 1,
-                'quantity' => 2,
+                'coffeeId' => 2,
+                'size' => 'M',
+                'quantity' => 4,
+                'subtotal' => 60000,
             ],
             [
                 'orderId' => 'ORD212',
                 'coffeeId' => 2,
-                'quantity' => 1,
+                'size' => 'M',
+                'quantity' => 4,
+                'subtotal' => 60000,
             ],
             [
                 'orderId' => 'ORD212',
-                'coffeeId' => 1,
+                'coffeeId' => 3,
+                'size' => 'L',
                 'quantity' => 1,
-            ],
-            [
-                'orderId' => 'ORD132',
-                'coffeeId' => 1,
-                'quantity' => 2,
+                'subtotal' => 24000,
             ],
             [
                 'orderId' => 'ORD132',
                 'coffeeId' => 3,
-                'quantity' => 2,
+                'size' => 'L',
+                'quantity' => 1,
+                'subtotal' => 24000,
             ],
             [
                 'orderId' => 'ORD132',
                 'coffeeId' => 1,
-                'quantity' => 3,
+                'size' => 'S',
+                'quantity' => 2,
+                'subtotal' => 20000,
+            ],
+            [
+                'orderId' => 'ORD132',
+                'coffeeId' => 1,
+                'size' => 'S',
+                'quantity' => 2,
+                'subtotal' => 20000,
             ],
         ]);
     }

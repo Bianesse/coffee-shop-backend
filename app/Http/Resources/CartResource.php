@@ -2,7 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Price;
+use App\Service\CountPrice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CartResource extends JsonResource
@@ -14,12 +17,11 @@ class CartResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        //$raw = $this->coffees()->select('name','type','price')->get();
-        $subtotal = $this->coffees->price * $this->quantity;
+        $count = new CountPrice();
         $total = 0;
 
         foreach ($this->get() as $item) {
-            $sub = $item->coffees->price * $item->quantity;
+            $sub = $item->subtotal;
             $total+=$sub;
         }
 
@@ -28,9 +30,9 @@ class CartResource extends JsonResource
             'cartId' => $this->cartId,
             'coffeeName' => $this->coffees->name,
             'size' => $this->size,
-            'price' => $this->coffees->price,
+            'price' => $count->price($this, false),
             'amount' => $this->quantity,
-            'subtotal' => $subtotal,
+            'subtotal' => $this->subtotal,
             'total' => $total,
         ];
     }

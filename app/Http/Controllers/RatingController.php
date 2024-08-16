@@ -24,6 +24,7 @@ class RatingController extends Controller
             'coffee_id' => $request->coffee_id,
             'user_id' => $request->user_id,
             'rating' => $request->rating,
+            'review' => $request->review,
         ]);
 
         return response()->json($insert, 200);

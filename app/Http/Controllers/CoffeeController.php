@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Price;
 use App\Models\Coffee;
 use Illuminate\Http\Request;
 use App\Http\Resources\CoffeeResource;
+use App\Http\Resources\ReviewResource;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\CoffeeCollection;
 use App\Http\Requests\StoreCoffeeRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateCoffeeRequest;
@@ -16,13 +19,13 @@ class CoffeeController extends Controller
     public function show(Coffee $coffee)
     {
         $coffee = Coffee::get();
-        return CoffeeResource::collection($coffee);
+        return new CoffeeCollection($coffee);
     }
 
     public function detail(Coffee $coffee, $id)
     {
-        $coffee = Coffee::findOrFail($id);
-        return new CoffeeResource($coffee);
+        $coffee = Coffee::with('ratings')->findOrFail($id);
+        return new ReviewResource($coffee);
     }
 
     public function insert(Request $request)
@@ -33,6 +36,9 @@ class CoffeeController extends Controller
             'description' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'price' => 'required',
+            'S' => 'required',
+            'M' => 'required',
+            'L' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -53,7 +59,19 @@ class CoffeeController extends Controller
             'price' => $request->price,
         ]);
 
-        return response()->json($insert, 200);
+        $latest = Coffee::orderBy('id', 'desc')->pluck('id')->first();
+        $size = ['S','M','L'];
+
+        foreach ($size as $v) { 
+            $price = Price::create([
+                'coffee_id' => $latest,
+                'size' => $v,
+                'price' => $request->$v,
+            ]);
+            $show[] = $price;
+        }
+
+        return response()->json([$insert, $show], 200);
     }
 
     public function update(Request $request, $id)

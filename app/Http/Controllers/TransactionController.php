@@ -6,8 +6,10 @@ use App\Models\Cart;
 use App\Models\Coffee;
 use App\Models\CartItem;
 use App\Models\Transaction;
+use App\Service\CountPrice;
 use Illuminate\Http\Request;
 use App\Models\TransactionItem;
+use App\Http\Resources\CartResource;
 use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
@@ -17,19 +19,18 @@ class TransactionController extends Controller
         $validator = Validator::make($request->all(), [
             'money' => 'required',
         ]);
-
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 422);
         }
 
         $cart = CartItem::with(["carts","coffees"])->get();
-
         if (CartItem::where("cartId", 'CART01')->count() <= 0) {
             return response()->json(['message' => 'Cart Cant Be Empty!']);
         }
+
         $total = 0;
         foreach ($cart as $item) {
-            $sum = $item->coffees->price * $item->quantity;
+            $sum = $item->subtotal;
             $total+=$sum;
         }
 
@@ -50,7 +51,9 @@ class TransactionController extends Controller
             $transactionItem = TransactionItem::create([
             "orderId" => $code,
             "coffeeId" => $v->coffeeId,
+            "size" => $v->size,
             "quantity" => $v->quantity,
+            "subtotal" => $v->subtotal,
         ]);
         $itemSave[] = $transactionItem;
         }

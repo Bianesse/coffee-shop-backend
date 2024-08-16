@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             CoffeeSeeder::class,
+            PriceSeeder::class,
             CartSeeder::class,
             CartItemSeeder::class,
             TransactionSeeder::class,

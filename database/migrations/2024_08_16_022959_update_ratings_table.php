@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('coffees', function (Blueprint $table) {
-            $table->string('image')->after('description')->nullable(true);
-            $table->decimal('rate')->after('image')->default(0);
+        Schema::table('ratings', function (Blueprint $table) {
+            $table->string('review')->nullable()->after('rating');
         });
     }
 
@@ -22,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('coffees', function (Blueprint $table) {
+        Schema::table('ratings', function (Blueprint $table) {
             //
         });
     }

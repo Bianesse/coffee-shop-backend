@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('coffeeId')->constrained(table:'coffees', column:'id')->cascadeOnDelete();
             $table->string('size');
             $table->integer('quantity');
+            $table->integer('subtotal');
             $table->timestamps();
         });
     }

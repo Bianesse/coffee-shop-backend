@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rating extends Model
+class Price extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         "coffee_id",
-        "user_id",
-        "rating",
-        "review",
+        "size",
+        "price",
     ];
 
     public function coffees()
@@ -21,8 +20,8 @@ class Rating extends Model
         return $this->belongsTo(Coffee::class, "coffee_id");
     }
 
-    public function reviewers()
+    public function cartItems()
     {
-        return $this->belongsTo(User::class, "user_id");
+        return $this->hasMany(CartItem::class);
     }
 }

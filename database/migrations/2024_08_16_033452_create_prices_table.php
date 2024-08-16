@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('coffees', function (Blueprint $table) {
-            $table->string('image')->after('description')->nullable(true);
-            $table->decimal('rate')->after('image')->default(0);
+        Schema::create('prices', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('coffee_id')->constrained(table: 'coffees', column: 'id')->cascadeOnDelete();
+            $table->enum('size', ['S','M','L']);
+            $table->integer('price');
+            $table->timestamps();
         });
     }
 
@@ -22,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('coffees', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('prices');
     }
 };

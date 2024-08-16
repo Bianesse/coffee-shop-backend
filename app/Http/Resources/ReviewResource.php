@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CoffeeResource extends JsonResource
+class ReviewResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,7 +14,6 @@ class CoffeeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        //$review = $this->ratings()->select('id','rating','review')->get();
         return 
         [
             'id' => $this->id,
@@ -24,6 +23,16 @@ class CoffeeResource extends JsonResource
             'image' => $this->image,
             'rate' => $this->rate,
             'price' => $this->price,
+            'reviews' => $this->ratings->map(function ($reviews) {
+                return
+                [
+                    'id'=> $reviews->id,
+                    'coffee_name' => $this->name,
+                    'reviewer' => auth()->user()->name,
+                    'rating' => $reviews->rating,
+                    'review' => $reviews->review,
+                ];
+            })
         ];
     }
 }
