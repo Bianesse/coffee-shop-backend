@@ -23,7 +23,13 @@ class CoffeeResource extends JsonResource
             'description' => $this->description,
             'image' => $this->image,
             'rate' => $this->rate,
-            'price' => $this->price,
+            'price' => $this->prices->map(function ($prices){
+                return
+                [
+                    'size' => $prices->size,
+                    'price' => $prices->price,
+                ];
+            }),
         ];
     }
 }

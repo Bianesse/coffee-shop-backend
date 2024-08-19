@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             CartItemSeeder::class,
             TransactionSeeder::class,
             TransactionItemSeeder::class,
-            //RatingSeeder::class,
+            RatingSeeder::class,
         ]);
     }
 }

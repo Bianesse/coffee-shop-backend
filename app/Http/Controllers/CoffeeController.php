@@ -18,7 +18,7 @@ class CoffeeController extends Controller
 
     public function show(Coffee $coffee)
     {
-        $coffee = Coffee::get();
+        $coffee = Coffee::with('prices')->get();
         return new CoffeeCollection($coffee);
     }
 

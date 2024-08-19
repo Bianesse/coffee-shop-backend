@@ -22,13 +22,19 @@ class ReviewResource extends JsonResource
             'description' => $this->description,
             'image' => $this->image,
             'rate' => $this->rate,
-            'price' => $this->price,
+            'price' => $this->prices->map(function ($prices){
+                return
+                [
+                    'size' => $prices->size,
+                    'price' => $prices->price,
+                ];
+            }),
             'reviews' => $this->ratings->map(function ($reviews) {
                 return
                 [
                     'id'=> $reviews->id,
                     'coffee_name' => $this->name,
-                    'reviewer' => auth()->user()->name,
+                    'reviewer' => $reviews->reviewers->name,
                     'rating' => $reviews->rating,
                     'review' => $reviews->review,
                 ];

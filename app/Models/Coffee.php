@@ -12,7 +12,7 @@ class Coffee extends Model
     use HasFactory;
 
     protected $fillable = [
-        "name","type","description","image","price","rate"
+        "name","type","description","image","rate"
     ];
     public $timestamps = false;
 
@@ -29,5 +29,10 @@ class Coffee extends Model
     public function ratings()
     {
         return $this->hasMany(Rating::class);
+    }
+
+    public function prices()
+    {
+        return $this->hasMany(Price::class);
     }
 }

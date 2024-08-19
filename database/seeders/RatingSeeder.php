@@ -19,9 +19,9 @@ class RatingSeeder extends Seeder
             ["coffee_id" => "1", "user_id" => "2", "rating" => "5"],
             ["coffee_id" => "2", "user_id" => "2", "rating" => "3"],
             ["coffee_id" => "2", "user_id" => "2", "rating" => "5"],
-            ["coffee_id" => "3", "user_id" => "2", "rating" => "4"],
-            ["coffee_id" => "3", "user_id" => "2", "rating" => "3"],
-            ["coffee_id" => "4", "user_id" => "2", "rating" => "5"],
+            ["coffee_id" => "3", "user_id" => "3", "rating" => "4"],
+            ["coffee_id" => "3", "user_id" => "3", "rating" => "3"],
+            ["coffee_id" => "4", "user_id" => "3", "rating" => "5"],
         ]);
     }
 }
