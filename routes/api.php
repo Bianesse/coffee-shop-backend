@@ -43,7 +43,7 @@ Route::middleware(['auth.api', 'role.api:1'])->group(function ()
 
 
 //Cashier
-Route::middleware(['auth.api', 'role.api:2'])->group(function () 
+Route::middleware(['auth.api'/* , 'role.api:2' */])->group(function () 
 {
     Route::post("/coffee/{id}/add", [CartController::class, "index"])->name("addCart");
     Route::get("/cart", [CartController::class, "show"])->name("showCart");

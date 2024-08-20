@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -24,6 +25,7 @@ class LoginController extends Controller
 
         //get credentials from request
         $credentials = $request->only('email', 'password');
+        JWTAuth::factory()->setTTL(60);
 
         //if auth failed
         if (!$token = auth('api')->attempt($credentials)) {
@@ -37,7 +39,7 @@ class LoginController extends Controller
             'success' => true,
             'user'    => auth('api')->user(),
             'token'   => $token,
-            'exp' => auth()->factory()->getTTL() * 60,
+            'exp' => JWTAuth::factory()->getTTL() * 60,
         ], 200);
     }
 

@@ -11,6 +11,8 @@ use App\Models\CartItem;
 use App\Service\CountPrice;
 use Illuminate\Support\Facades\Validator;
 
+use function PHPUnit\Framework\isNull;
+
 class CartController extends Controller
 {
     /**
@@ -29,6 +31,17 @@ class CartController extends Controller
         }
         $count = new CountPrice();
         $subtotal = $count->price_request($request, true, $id);
+
+        $cartitem = CartItem::where('coffeeId', $id)->where('size', $request->size)->first();
+        if (!empty($cartitem)){
+            if ($cartitem->coffeeId == $id && $cartitem->size == $request->size){
+                $cartitem->update([
+                    'quantity' => $cartitem->quantity + $request->quantity
+                ]);
+                return response()->json($cartitem);
+            }
+        }
+        
         $add = CartItem::create([
             'cartId' => 'CART01',
             'coffeeId' => $id,
