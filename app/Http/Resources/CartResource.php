@@ -21,18 +21,21 @@ class CartResource extends JsonResource
         $total = 0;
 
         foreach ($this->get() as $item) {
+            if($item->selected == false){ continue; };
             $sub = $item->subtotal;
             $total+=$sub;
         }
 
         return 
         [
+            'id' => $this->id,
             'cartId' => $this->cartId,
             'coffeeName' => $this->coffees->name,
             'size' => $this->size,
             'price' => $count->price($this, false),
             'quantity' => $this->quantity,
             'subtotal' => $this->subtotal,
+            'selected' => $this->selected,
             'total' => $total,
         ];
     }

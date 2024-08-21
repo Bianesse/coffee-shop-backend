@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('orderId')->unique();
-            $table->decimal('total', 10, 2);
+            $table->bigInteger('total');
             $table->bigInteger('paymentAmount');
             $table->bigInteger('change');
             $table->timestamp('transaction_date')->default(DB::raw('CURRENT_TIMESTAMP'));

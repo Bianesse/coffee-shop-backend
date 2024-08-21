@@ -23,7 +23,7 @@ class TransactionController extends Controller
             return response()->json($validator->errors()->toJson(), 422);
         }
 
-        $cart = CartItem::with(["carts","coffees"])->get();
+        $cart = CartItem::with(["carts","coffees"])->where('selected', 1)->get();
         if (CartItem::where("cartId", 'CART01')->count() <= 0) {
             return response()->json(['message' => 'Cart Cant Be Empty!']);
         }
@@ -59,7 +59,7 @@ class TransactionController extends Controller
         }
         
 
-        $removeCart = CartItem::where('cartId', 'CART01')->delete();
+        $removeCart = CartItem::where('cartId', 'CART01')->where('selected', '1')->delete();
         return response()->json([
             'detail' => $transaction,
             'item' => $itemSave,

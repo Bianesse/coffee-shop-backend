@@ -25,7 +25,7 @@ class LoginController extends Controller
 
         //get credentials from request
         $credentials = $request->only('email', 'password');
-        JWTAuth::factory()->setTTL(60);
+        JWTAuth::factory()->setTTL(120);
 
         //if auth failed
         if (!$token = auth('api')->attempt($credentials)) {
