@@ -12,6 +12,8 @@ use App\Models\TransactionItem;
 use App\Http\Resources\CartResource;
 use Illuminate\Support\Facades\Validator;
 
+use function PHPUnit\Framework\isNull;
+
 class TransactionController extends Controller
 {
     public function index(Request $request)
@@ -24,7 +26,7 @@ class TransactionController extends Controller
         }
 
         $cart = CartItem::with(["carts","coffees"])->where('selected', 1)->get();
-        if (CartItem::where("cartId", 'CART01')->count() <= 0) {
+        if ($cart->isEmpty()) {
             return response()->json(['message' => 'Cart Cant Be Empty!']);
         }
 

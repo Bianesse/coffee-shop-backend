@@ -41,12 +41,12 @@ Route::middleware(['auth.api', 'role.api:1'])->group(function ()
     });
 });
 
+Route::get("/cart", [CartController::class, "show"])->name("showCart");
 
 //Cashier
 Route::middleware(['auth.api', 'role.api:2'])->group(function () 
 {
     Route::post("/coffee/{id}/add", [CartController::class, "index"])->name("addCart");
-    Route::get("/cart", [CartController::class, "show"])->name("showCart");
     Route::post("/cart/{id}/increase", [CartController::class, "increase"])->name("cartIncrease");
     Route::post("/cart/{id}/decrease", [CartController::class, "decrease"])->name("cartDecrease");
     Route::post("/cart/{id}/select", [CartController::class, "select"])->name("cartSelect");
