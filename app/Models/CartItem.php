@@ -23,8 +23,4 @@ class CartItem extends Model
         return $this->belongsTo(Coffee::class, "coffeeId");
     }
 
-    public function prices(): BelongsTo
-    {
-        return $this->belongsTo(Price::class, "coffeeId");
-    }
 }

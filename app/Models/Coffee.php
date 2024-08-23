@@ -35,4 +35,9 @@ class Coffee extends Model
     {
         return $this->hasMany(Price::class);
     }
+
+    public function priceForSize($size)
+    {
+        return $this->prices()->where('size', $size)->first();
+    }
 }

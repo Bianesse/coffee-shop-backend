@@ -51,7 +51,9 @@ Route::middleware(['auth.api', 'role.api:2'])->group(function ()
     Route::post("/cart/{id}/decrease", [CartController::class, "decrease"])->name("cartDecrease");
     Route::post("/cart/{id}/select", [CartController::class, "select"])->name("cartSelect");
     Route::delete("/cart/{id}/delete", [CartController::class, "delete"])->name("cartDelete");
+
     Route::post("/transaction", [TransactionController::class, "index"])->name("addTransaction");
+    Route::get("/transaction/page", [TransactionController::class, "view"])->name("viewTransaction");
 
     Route::get("/cashier", function () {
         return response()->json([

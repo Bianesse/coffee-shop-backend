@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CartCollection;
 use App\Models\Cart;
 use App\Models\Coffee;
 use App\Models\CartItem;
@@ -16,6 +17,18 @@ use function PHPUnit\Framework\isNull;
 
 class TransactionController extends Controller
 {
+    private $cart;
+
+    public function __construct()
+    {
+        $this->cart = CartItem::with(['carts', 'coffees'])->where('selected', 1)->get();
+    }
+
+    public function getCart()
+    {
+        return $this->cart;
+    }
+
     public function index(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -25,7 +38,7 @@ class TransactionController extends Controller
             return response()->json($validator->errors()->toJson(), 422);
         }
 
-        $cart = CartItem::with(["carts","coffees"])->where('selected', 1)->get();
+        $cart = $this->getCart();
         if ($cart->isEmpty()) {
             return response()->json(['message' => 'Cart Cant Be Empty!']);
         }
@@ -60,11 +73,17 @@ class TransactionController extends Controller
         $itemSave[] = $transactionItem;
         }
         
-
-        $removeCart = CartItem::where('cartId', 'CART01')->where('selected', '1')->delete();
+        $cartid = $cart->pluck('id');
+        CartItem::whereIn('id', $cartid)->delete();
         return response()->json([
             'detail' => $transaction,
             'item' => $itemSave,
         ]);
+    }
+
+    public function view()
+    {
+        $cart = $this->getCart();
+        return new CartCollection($cart);
     }
 }

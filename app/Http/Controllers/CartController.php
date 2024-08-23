@@ -25,7 +25,6 @@ class CartController extends Controller
             'quantity'   => 'required',
         ]);
 
-        //check if validation fails
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
@@ -55,7 +54,7 @@ class CartController extends Controller
 
     public function show()
     {
-        $cart = CartItem::with(["carts", "coffees", "prices"])->get();
+        $cart = CartItem::with(["carts", "coffees"])->get();
 
         return new CartCollection($cart);
     }

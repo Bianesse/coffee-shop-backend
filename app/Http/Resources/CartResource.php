@@ -32,7 +32,7 @@ class CartResource extends JsonResource
             'cartId' => $this->cartId,
             'coffeeName' => $this->coffees->name,
             'size' => $this->size,
-            'price' => $count->price($this, false),
+            'price' => $this->coffees->priceForSize($this->size)->price,//$count->price($this, false),
             'quantity' => $this->quantity,
             'subtotal' => $this->subtotal,
             'selected' => $this->selected,
