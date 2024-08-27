@@ -40,6 +40,7 @@ class RatingObserver
         
         $coffee->update([
             'rate'=> $average,
+            'rate_total'=> $count,
         ]);
     }
 }

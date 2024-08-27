@@ -17,7 +17,6 @@ class CartResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $count = new CountPrice();
         $total = 0;
 
         foreach ($this->get() as $item) {

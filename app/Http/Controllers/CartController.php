@@ -29,14 +29,15 @@ class CartController extends Controller
             return response()->json($validator->errors(), 422);
         }
         $count = new CountPrice();
-        $subtotal = $count->price_request($request, true, $id);
-
+        $price = $count->price_request($request, false, $id);
+        
         $cartitem = CartItem::where('coffeeId', $id)->where('size', $request->size)->first();
         if (!empty($cartitem)) {
             if ($cartitem->coffeeId == $id && $cartitem->size == $request->size) {
-                $cartitem->update([
-                    'quantity' => $cartitem->quantity + $request->quantity
-                ]);
+                $newQty = $cartitem->quantity + $request->quantity;
+                $cartitem->quantity = $newQty;
+                $cartitem->subtotal = $newQty * $price;
+                $cartitem->save();
                 return response()->json($cartitem);
             }
         }
@@ -46,7 +47,7 @@ class CartController extends Controller
             'coffeeId' => $id,
             'size' => $request->size,
             'quantity' => $request->quantity,
-            'subtotal' => $subtotal,
+            'subtotal' => $request->quantity * $price,
         ]);
 
         return response()->json($add);

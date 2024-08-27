@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('cartId');
             $table->foreign('cartId')->references('cartId')->on('carts')->cascadeOnDelete();
+            //$table->foreignId('user_id')->constrained(table:'user', column:'id')->cascadeOnDelete();
             $table->foreignId('coffeeId')->constrained(table:'coffees', column:'id')->cascadeOnDelete();
             $table->string('size');
             $table->integer('quantity');

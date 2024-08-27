@@ -60,6 +60,7 @@ class TransactionController extends Controller
             "total" => $total,
             "paymentAmount" => $request->money,
             "change" => $request->money-$total,
+            "transaction_date" => date('Y-m-d H:i:s'),
         ]);
 
         foreach ($cart as $v){

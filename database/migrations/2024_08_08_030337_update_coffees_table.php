@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('coffees', function (Blueprint $table) {
             $table->string('image')->after('description')->nullable(true);
             $table->decimal('rate')->after('image')->default(0);
+            $table->bigInteger('rate_total')->after('rate')->default(0);
         });
     }
 

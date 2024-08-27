@@ -22,5 +22,6 @@ class CartItem extends Model
     {
         return $this->belongsTo(Coffee::class, "coffeeId");
     }
-
+    
+    
 }
