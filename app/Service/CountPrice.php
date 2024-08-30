@@ -31,7 +31,14 @@ class CountPrice
             if ($increment) {
                 $cart->quantity += 1;
             } else {
-                $cart->quantity -= 1;
+                if ($cart->quantity > 1){
+                    $cart->quantity -= 1;
+                }else{
+                    return $this->response = response()->json([
+                        'success' => false,
+                        'message' => 'Quantity cant be less that 1'
+                    ], 404);
+                }
             }
             $cart->save();
 

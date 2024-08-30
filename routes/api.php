@@ -26,8 +26,7 @@ Route::post("/registration", [LoginController::class, "regis"])->name("regis");
 
 
 //Admin
-Route::middleware(['auth.api', 'role.api:1'])->group(function () 
-{
+Route::middleware(['auth.api', 'role.api:1'])->group(function () {
     Route::prefix('/admin')->group(function () {
         Route::get("/", function () {
             return response()->json([
@@ -41,15 +40,14 @@ Route::middleware(['auth.api', 'role.api:1'])->group(function ()
     });
 });
 
-Route::get("/cart", [CartController::class, "show"])->name("showCart");
 
 //Cashier
-Route::middleware(['auth.api', 'role.api:2'])->group(function () 
-{
+Route::middleware(['auth.api', 'role.api:2'])->group(function () {
     Route::post("/coffee/{id}/add", [CartController::class, "index"])->name("addCart");
-    Route::post("/cart/{id}/increase", [CartController::class, "increase"])->name("cartIncrease");
-    Route::post("/cart/{id}/decrease", [CartController::class, "decrease"])->name("cartDecrease");
-    Route::post("/cart/{id}/select", [CartController::class, "select"])->name("cartSelect");
+    Route::get("/cart", [CartController::class, "show"])->name("showCart");
+    Route::put("/cart/{id}/increase", [CartController::class, "increase"])->name("cartIncrease");
+    Route::put("/cart/{id}/decrease", [CartController::class, "decrease"])->name("cartDecrease");
+    Route::put("/cart/{id}/select", [CartController::class, "select"])->name("cartSelect");
     Route::delete("/cart/{id}/delete", [CartController::class, "delete"])->name("cartDelete");
 
     Route::post("/transaction", [TransactionController::class, "index"])->name("addTransaction");
@@ -64,8 +62,7 @@ Route::middleware(['auth.api', 'role.api:2'])->group(function ()
 
 
 //User
-Route::middleware(['auth.api', 'role.api:3'])->group(function () 
-{
+Route::middleware(['auth.api', 'role.api:3'])->group(function () {
     Route::prefix('/user')->group(function () {
         Route::get("/", function () {
             return response()->json([
@@ -74,7 +71,6 @@ Route::middleware(['auth.api', 'role.api:3'])->group(function ()
         });
 
         Route::post('/post/rating', [RatingController::class, 'insert'])->name('insert.rating');
-
     });
 });
 

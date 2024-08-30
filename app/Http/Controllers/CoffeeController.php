@@ -92,7 +92,9 @@ class CoffeeController extends Controller
 
         if ($request->hasFile('image')) {
             Storage::disk('public')->delete($coffee->image);
+            //$imageName = time().'.'.$request->image->extension();
             $path = $request->file('image')->store('image', 'public');
+            //$request->image->move(public_path('image'), $imageName);
         } else {
             $path = $coffee->image;
         }
@@ -101,7 +103,7 @@ class CoffeeController extends Controller
             'name' => $request->name,
             'type' => $request->type,
             'description' => $request->description,
-            'image' => $path,
+            'image' => $path,//'image/'.$imageName,
             'price' => $request->price,
         ]);
 
