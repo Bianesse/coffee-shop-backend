@@ -35,7 +35,6 @@ class CoffeeController extends Controller
             'type' => 'required',
             'description' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'price' => 'required',
             'S' => 'required',
             'M' => 'required',
             'L' => 'required',
@@ -56,13 +55,12 @@ class CoffeeController extends Controller
             'type' => $request->type,
             'description' => $request->description,
             'image' => $path,
-            'price' => $request->price,
         ]);
 
         $latest = Coffee::orderBy('id', 'desc')->pluck('id')->first();
-        $size = ['S','M','L'];
+        $size = ['S', 'M', 'L'];
 
-        foreach ($size as $v) { 
+        foreach ($size as $v) {
             $price = Price::create([
                 'coffee_id' => $latest,
                 'size' => $v,
@@ -81,14 +79,16 @@ class CoffeeController extends Controller
             'type' => 'required',
             'description' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'price' => 'required',
+            'S' => 'required',
+            'M' => 'required',
+            'L' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $coffee = Coffee::findOrFail($id);
+        $coffee = Coffee::with('prices')->findOrFail($id);
 
         if ($request->hasFile('image')) {
             Storage::disk('public')->delete($coffee->image);
@@ -103,9 +103,14 @@ class CoffeeController extends Controller
             'name' => $request->name,
             'type' => $request->type,
             'description' => $request->description,
-            'image' => $path,//'image/'.$imageName,
-            'price' => $request->price,
+            'image' => $path, //'image/'.$imageName,
         ]);
+
+        foreach ($coffee->prices as $v) {
+            $size = $v->size;
+            $v->price = $request->$size;
+            $v->save();
+        }
 
         return response()->json($coffee, 200);
     }
@@ -113,7 +118,9 @@ class CoffeeController extends Controller
     public function delete($id)
     {
         $coffee = Coffee::findOrFail($id);
-        Storage::disk('public')->delete($coffee->image);
+        if (!empty($coffee->image)) {
+        Storage::disk('public')->delete($coffee->image); 
+        }
         $coffee->delete();
 
         if ($coffee) {
