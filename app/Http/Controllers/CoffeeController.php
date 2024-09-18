@@ -91,7 +91,9 @@ class CoffeeController extends Controller
         $coffee = Coffee::with('prices')->findOrFail($id);
 
         if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($coffee->image);
+            if (!empty($coffee->image)) {
+                Storage::disk('public')->delete($coffee->image); 
+                }
             //$imageName = time().'.'.$request->image->extension();
             $path = $request->file('image')->store('image', 'public');
             //$request->image->move(public_path('image'), $imageName);
