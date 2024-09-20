@@ -28,19 +28,20 @@ class LoginController extends Controller
         JWTAuth::factory()->setTTL(120);
 
         //if auth failed
-        if (!$token = auth('api')->attempt($credentials)) {
+        if ($token = auth('api')->attempt($credentials)) {
             return response()->json([
-                'success' => false,
-                'message' => 'Email atau Password Anda salah'
-            ], 401);
+                'success' => true,
+                'user'    => auth('api')->user(),
+                'token'   => $token,
+                'exp' => JWTAuth::factory()->getTTL() * 60,
+            ], 200);
         }
 
         return response()->json([
-            'success' => true,
-            'user'    => auth('api')->user(),
-            'token'   => $token,
-            'exp' => JWTAuth::factory()->getTTL() * 60,
-        ], 200);
+            'success' => false,
+            'message' => 'Email atau Password Anda salah'
+        ], 401);
+        
     }
 
     public function regis(Request $request)
