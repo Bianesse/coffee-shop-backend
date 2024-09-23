@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CoffeeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\TransactionController;
@@ -35,6 +36,7 @@ Route::middleware(['auth.api', 'role.api:1'])->group(function () {
         });
 
         Route::post('/post/coffee', [CoffeeController::class, 'insert'])->name('insert.coffee');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::post('/update/coffee/{id}', [CoffeeController::class, 'update'])->name('update.coffee');
         Route::delete('/delete/coffee/{id}', [CoffeeController::class, 'delete'])->name('delete.coffee');
     });
