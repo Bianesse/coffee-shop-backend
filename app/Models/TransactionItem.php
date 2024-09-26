@@ -15,7 +15,7 @@ class TransactionItem extends Model
 
     public function transactions()
     {
-        return $this->belongsTo(Transaction::class, 'orderId');
+        return $this->belongsTo(Transaction::class, 'orderId', 'orderId');
     }
 
     public function coffees()

@@ -37,6 +37,7 @@ Route::middleware(['auth.api', 'role.api:1'])->group(function () {
 
         Route::post('/post/coffee', [CoffeeController::class, 'insert'])->name('insert.coffee');
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/transaction', [transactionController::class, 'logs'])->name('transaction.logs');
         Route::post('/update/coffee/{id}', [CoffeeController::class, 'update'])->name('update.coffee');
         Route::delete('/delete/coffee/{id}', [CoffeeController::class, 'delete'])->name('delete.coffee');
     });

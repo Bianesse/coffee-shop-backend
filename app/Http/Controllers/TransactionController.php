@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CartCollection;
 use App\Models\Cart;
 use App\Models\Coffee;
 use App\Models\CartItem;
@@ -11,9 +10,11 @@ use App\Service\CountPrice;
 use Illuminate\Http\Request;
 use App\Models\TransactionItem;
 use App\Http\Resources\CartResource;
-use Illuminate\Support\Facades\Validator;
-
+use App\Http\Resources\CartCollection;
 use function PHPUnit\Framework\isNull;
+
+use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\TransactionCollection;
 
 class TransactionController extends Controller
 {
@@ -80,6 +81,12 @@ class TransactionController extends Controller
             'detail' => $transaction,
             'item' => $itemSave,
         ]);
+    }
+
+    public function logs()
+    {
+        $transactions = Transaction::with('transactionItems.coffees.prices')->get();
+        return new TransactionCollection($transactions);
     }
 
     public function view()
