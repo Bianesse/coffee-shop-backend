@@ -40,6 +40,7 @@ Route::middleware(['auth.api', 'role.api:1'])->group(function () {
         Route::get('/transaction', [transactionController::class, 'logs'])->name('transaction.logs');
         Route::post('/update/coffee/{id}', [CoffeeController::class, 'update'])->name('update.coffee');
         Route::delete('/delete/coffee/{id}', [CoffeeController::class, 'delete'])->name('delete.coffee');
+        Route::get('/users', [LoginController::class, 'users'])->name('users');
     });
 });
 

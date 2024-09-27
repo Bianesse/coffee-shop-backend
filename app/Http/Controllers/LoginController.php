@@ -72,4 +72,9 @@ class LoginController extends Controller
         return response()->json(['message' => 'Successfully Logged Out']);
     }
 
+    public function users(){
+        $users = User::all();
+        return response()->json($users);
+    }
+
 }
