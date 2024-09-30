@@ -44,37 +44,12 @@ class LoginController extends Controller
         
     }
 
-    public function regis(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email'     => 'required',
-            'password'  => 'required',
-            'role'  => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 422);
-        }
-
-        $user = User::create([
-            'name'     => $request->name,
-            'email'     => $request->email,
-            'password'   => Hash::make($request->password),
-            'role'  => $request->role,
-        ]);
-        return response()->json(['message' => 'Successfully created an account']);
-    }
-
     public function logout()
     {
         auth('api')->logout();
         return response()->json(['message' => 'Successfully Logged Out']);
     }
 
-    public function users(){
-        $users = User::all();
-        return response()->json($users);
-    }
+    
 
 }

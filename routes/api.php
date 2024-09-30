@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CoffeeController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RatingController;
-use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\CoffeeController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 //Public
 Route::get("/coffee", [CoffeeController::class, "show"])->name("showAll");
 Route::get("/coffee/{id}", [CoffeeController::class, "detail"])->name("showDetail");
-Route::post("/registration", [LoginController::class, "regis"])->name("regis");
+Route::post("/registration", [UserController::class, "regis"])->name("regis");
 
 
 //Admin
@@ -40,7 +41,8 @@ Route::middleware(['auth.api', 'role.api:1'])->group(function () {
         Route::get('/transaction', [transactionController::class, 'logs'])->name('transaction.logs');
         Route::post('/update/coffee/{id}', [CoffeeController::class, 'update'])->name('update.coffee');
         Route::delete('/delete/coffee/{id}', [CoffeeController::class, 'delete'])->name('delete.coffee');
-        Route::get('/users', [LoginController::class, 'users'])->name('users');
+        Route::get('/users', [UserController::class, 'users'])->name('users');
+        Route::get('/users/delete/{id}', [UserController::class, 'destroy'])->name('delete.users');
     });
 });
 
