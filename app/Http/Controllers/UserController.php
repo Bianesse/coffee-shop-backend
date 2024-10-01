@@ -34,7 +34,25 @@ class UserController extends Controller
         ]);
         return response()->json(['message' => 'Successfully created an account']);
     }
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email'     => 'required',
+            'role'  => 'required',
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 422);
+        }
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = $request->role;
+        $user->save();
+        
+        return response()->json(['message' => 'Successfully updated an account']);
+    }
     public function destroy($id)
     {
         $user = User::find($id);

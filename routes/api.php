@@ -42,7 +42,8 @@ Route::middleware(['auth.api', 'role.api:1'])->group(function () {
         Route::post('/update/coffee/{id}', [CoffeeController::class, 'update'])->name('update.coffee');
         Route::delete('/delete/coffee/{id}', [CoffeeController::class, 'delete'])->name('delete.coffee');
         Route::get('/users', [UserController::class, 'users'])->name('users');
-        Route::get('/users/delete/{id}', [UserController::class, 'destroy'])->name('delete.users');
+        Route::delete('/users/delete/{id}', [UserController::class, 'destroy'])->name('delete.users');
+        Route::post('/users/update/{id}', [UserController::class, 'update'])->name('update.users');
     });
 });
 
