@@ -30,6 +30,7 @@ class CartController extends Controller
         }
         $count = new CountPrice();
         $price = $count->price_request($request, false, $id);
+        $user = auth()->user();
         
         $cartitem = CartItem::where('coffeeId', $id)->where('size', $request->size)->first();
         if (!empty($cartitem)) {
@@ -43,7 +44,7 @@ class CartController extends Controller
         }
 
         $add = CartItem::create([
-            'cartId' => 'CART01',
+            "user_id" => $user->id,
             'coffeeId' => $id,
             'size' => $request->size,
             'quantity' => $request->quantity,
@@ -55,7 +56,7 @@ class CartController extends Controller
 
     public function show()
     {
-        $cart = CartItem::with(["carts", "coffees"])->get();
+        $cart = CartItem::with(["users", "coffees"])->where('user_id', auth()->user()->id)->get();
 
         return new CartCollection($cart);
     }

@@ -50,15 +50,7 @@ Route::middleware(['auth.api', 'role.api:1'])->group(function () {
 
 //Cashier
 Route::middleware(['auth.api', 'role.api:2'])->group(function () {
-    Route::post("/coffee/{id}/add", [CartController::class, "index"])->name("addCart");
-    Route::get("/cart", [CartController::class, "show"])->name("showCart");
-    Route::put("/cart/{id}/increase", [CartController::class, "increase"])->name("cartIncrease");
-    Route::put("/cart/{id}/decrease", [CartController::class, "decrease"])->name("cartDecrease");
-    Route::put("/cart/{id}/select", [CartController::class, "select"])->name("cartSelect");
-    Route::delete("/cart/{id}/delete", [CartController::class, "delete"])->name("cartDelete");
-
     Route::post("/transaction", [TransactionController::class, "index"])->name("addTransaction");
-    Route::get("/transaction/page", [TransactionController::class, "view"])->name("viewTransaction");
 
     Route::get("/cashier", function () {
         return response()->json([
@@ -66,6 +58,19 @@ Route::middleware(['auth.api', 'role.api:2'])->group(function () {
         ]);
     });
 });
+
+Route::middleware(['auth.api', 'role.api:2,3'])->group(function () {
+    Route::post("/coffee/{id}/add", [CartController::class, "index"])->name("addCart");
+    Route::get("/cart", [CartController::class, "show"])->name("showCart");
+    Route::put("/cart/{id}/increase", [CartController::class, "increase"])->name("cartIncrease");
+    Route::put("/cart/{id}/decrease", [CartController::class, "decrease"])->name("cartDecrease");
+    Route::put("/cart/{id}/select", [CartController::class, "select"])->name("cartSelect");
+    Route::delete("/cart/{id}/delete", [CartController::class, "delete"])->name("cartDelete");
+
+    Route::get("/transaction/page", [TransactionController::class, "view"])->name("viewTransaction");
+
+});
+
 
 
 //User

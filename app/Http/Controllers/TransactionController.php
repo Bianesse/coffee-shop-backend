@@ -22,7 +22,7 @@ class TransactionController extends Controller
 
     public function __construct()
     {
-        $this->cart = CartItem::with(['carts', 'coffees'])->where('selected', 1)->get();
+        $this->cart = CartItem::with(['users', 'coffees'])->where('selected', 1)->where('user_id', auth()->user()->id)->get();
     }
 
     public function getCart()
@@ -55,9 +55,11 @@ class TransactionController extends Controller
         }
         
         $code = "ORD".rand(0,2000);
+        $user = auth()->user();
 
         $transaction = Transaction::create([
             "orderId" => $code,
+            "user_id" => $user->id,
             "total" => $total,
             "paymentAmount" => $request->money,
             "change" => $request->money-$total,

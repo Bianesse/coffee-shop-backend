@@ -11,17 +11,17 @@ class CartItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'cartId', 'coffeeId', 'quantity', "size", "subtotal"
+        'user_id', 'coffeeId', 'quantity', "size", "subtotal"
     ];
 
-    public function carts()
-    {
-        return $this->belongsTo(Cart::class, 'cartId');
-    }
+
     public function coffees(): BelongsTo
     {
         return $this->belongsTo(Coffee::class, "coffeeId");
     }
     
-    
+    public function users(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "user_id");
+    }
 }

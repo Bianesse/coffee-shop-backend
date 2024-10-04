@@ -21,6 +21,7 @@ class CartResource extends JsonResource
 
         foreach ($this->get() as $item) {
             if($item->selected == false){ continue; };
+            if($item->user_id != auth()->user()->id){ continue; };
             $sub = $item->subtotal;
             $total+=$sub;
         }
@@ -28,7 +29,7 @@ class CartResource extends JsonResource
         return 
         [
             'id' => $this->id,
-            'cartId' => $this->cartId,
+            'user_id' => $this->user_id,
             'coffeeName' => $this->coffees->name,
             'size' => $this->size,
             'price' => $this->coffees->priceForSize($this->size)->price,//$count->price($this, false),

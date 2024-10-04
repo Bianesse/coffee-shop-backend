@@ -15,21 +15,35 @@ class CartItemSeeder extends Seeder
     {
         CartItem::insert([
             [
-                'cartId' => 'CART01',
+                'user_id' => '2',
                 'coffeeId' => 1,
                 'size' => 'S',
                 'quantity' => 2,
                 'subtotal' => 20000,
             ],
             [
-                'cartId' => 'CART01',
+                'user_id' => '2',
                 'coffeeId' => 2,
                 'size' => 'M',
                 'quantity' => 4,
                 'subtotal' => 60000,
             ],
             [
-                'cartId' => 'CART01',
+                'user_id' => '2',
+                'coffeeId' => 3,
+                'size' => 'L',
+                'quantity' => 1,
+                'subtotal' => 24000,
+            ],
+            [
+                'user_id' => '5',
+                'coffeeId' => 3,
+                'size' => 'L',
+                'quantity' => 1,
+                'subtotal' => 24000,
+            ],
+            [
+                'user_id' => '5',
                 'coffeeId' => 3,
                 'size' => 'L',
                 'quantity' => 1,

@@ -12,6 +12,7 @@ class Transaction extends Model
 
     protected $fillable = [
         'orderId',
+        'user_id',
         'total',
         'paymentAmount',
         'change',
@@ -20,5 +21,10 @@ class Transaction extends Model
     public function transactionItems()
     {
         return $this->hasMany(TransactionItem::class, "orderId", "orderId");
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, "user_id", "id");
     }
 }

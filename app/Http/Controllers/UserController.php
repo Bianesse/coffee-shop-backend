@@ -19,18 +19,22 @@ class UserController extends Controller
             'name' => 'required',
             'email'     => 'required',
             'password'  => 'required',
-            'role'  => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 422);
+        }
+        if($request->role == NULL){
+            $role = 3;
+        }else{
+            $role = $request->role;
         }
 
         $user = User::create([
             'name'     => $request->name,
             'email'     => $request->email,
             'password'   => Hash::make($request->password),
-            'role'  => $request->role,
+            'role'  => $role
         ]);
         return response()->json(['message' => 'Successfully created an account']);
     }

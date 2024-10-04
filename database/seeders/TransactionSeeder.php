@@ -16,6 +16,7 @@ class TransactionSeeder extends Seeder
         Transaction::insert([
             [
                 'orderId' => 'ORD232',
+                'user_id' => '2',
                 'total' => 100000,
                 'paymentAmount' => 100000,
                 'change' => 0,
@@ -23,6 +24,7 @@ class TransactionSeeder extends Seeder
             ],
             [
                 'orderId' => 'ORD212',
+                'user_id' => '2',
                 'total' => 120000,
                 'paymentAmount' => 150000,
                 'change' => 30000,
@@ -31,6 +33,7 @@ class TransactionSeeder extends Seeder
             [
                 'orderId' => 'ORD132',
                 'total' => 45000,
+                'user_id' => '5',
                 'paymentAmount' => 50000,
                 'change' => 5000,
                 'transaction_date' => now(),
