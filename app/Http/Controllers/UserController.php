@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     public function users(){
-        $users = User::with('roles')->paginate(10);
+        $users = User::with('roles')->get();
         return response()->json($users);
     }
     public function regis(Request $request)
