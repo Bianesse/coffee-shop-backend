@@ -59,6 +59,7 @@ Route::middleware(['auth.api', 'role.api:2'])->group(function () {
     });
 });
 
+//Cashier, User
 Route::middleware(['auth.api', 'role.api:2,3'])->group(function () {
     Route::post("/coffee/{id}/add", [CartController::class, "index"])->name("addCart");
     Route::get("/cart", [CartController::class, "show"])->name("showCart");
@@ -69,6 +70,8 @@ Route::middleware(['auth.api', 'role.api:2,3'])->group(function () {
 
     Route::get("/transaction/page", [TransactionController::class, "view"])->name("viewTransaction");
 
+    Route::post("/coffee/favorite/{id}", [CoffeeController::class, "favorite"])->name("addFavorite");
+    Route::get("/favorite", [CoffeeController::class, "getFavorite"])->name("showFavorite");
 });
 
 

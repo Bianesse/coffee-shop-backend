@@ -61,6 +61,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Transaction::class, "user_id");
     }
 
+    public function favorites()
+    {
+        return $this->hasMany(CoffeeFavorite::class, "user_id");
+    }
+
 
 
 

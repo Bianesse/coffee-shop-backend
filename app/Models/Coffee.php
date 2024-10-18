@@ -36,6 +36,11 @@ class Coffee extends Model
         return $this->hasMany(Price::class);
     }
 
+    public function favorites()
+    {
+        return $this->hasMany(CoffeeFavorite::class, "coffee_id");
+    }
+
     public function priceForSize($size)
     {
         return $this->prices()->where('size', $size)->first();

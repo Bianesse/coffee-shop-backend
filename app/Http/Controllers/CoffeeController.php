@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Price;
 use App\Models\Coffee;
 use Illuminate\Http\Request;
+use App\Models\CoffeeFavorite;
 use App\Http\Resources\CoffeeResource;
 use App\Http\Resources\ReviewResource;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\CoffeeCollection;
+use App\Http\Resources\FavoriteResource;
 use App\Http\Requests\StoreCoffeeRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateCoffeeRequest;
+use Illuminate\Database\Eloquent\Collection;
 
 class CoffeeController extends Controller
 {
@@ -24,7 +27,7 @@ class CoffeeController extends Controller
 
     public function detail(Coffee $coffee, $id)
     {
-        $coffee = Coffee::with('ratings')->findOrFail($id);
+        $coffee = Coffee::with('ratings')->find($id);
         return new ReviewResource($coffee);
     }
 
@@ -92,8 +95,8 @@ class CoffeeController extends Controller
 
         if ($request->hasFile('image')) {
             if (!empty($coffee->image)) {
-                Storage::disk('public')->delete($coffee->image); 
-                }
+                Storage::disk('public')->delete($coffee->image);
+            }
             //$imageName = time().'.'.$request->image->extension();
             $path = $request->file('image')->store('image', 'public');
             //$request->image->move(public_path('image'), $imageName);
@@ -121,7 +124,7 @@ class CoffeeController extends Controller
     {
         $coffee = Coffee::findOrFail($id);
         if (!empty($coffee->image)) {
-        Storage::disk('public')->delete($coffee->image); 
+            Storage::disk('public')->delete($coffee->image);
         }
         $coffee->delete();
 
@@ -134,5 +137,63 @@ class CoffeeController extends Controller
                 'message' => 'Not Found!',
             ], 200);
         }
+    }
+
+    public function favorite($id)
+    {
+        try {
+            $user = auth()->user()->id;
+        
+            // Check if the coffee exists before proceeding
+            $coffee = Coffee::find($id); // Assuming there's a Coffee model
+            if (!$coffee) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Coffee not found',
+                ], 404);
+            }
+        
+            // Proceed with favorite logic if coffee exists
+            $favorite = CoffeeFavorite::where('user_id', $user)->where('coffee_id', $id)->first();
+        
+            if (!$favorite) {
+                $favorite = new CoffeeFavorite();
+                $favorite->user_id = $user;
+                $favorite->coffee_id = $id;
+                $favorite->save();
+                return response()->json([
+                    'success' => true,
+                    'message' => $favorite,
+                ], 200);
+            } else {
+                $favorite->delete();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Unfavorited',
+                ], 200);
+            }
+        } catch (\Exception $e) {
+            // Catch any other unexpected errors
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred: ' . $e->getMessage(),
+            ], 500);
+        }
+        
+        
+    }
+
+    public function getFavorite()
+    {
+        $user = auth()->user()->id;
+
+        $favorite = CoffeeFavorite::with('coffees.prices', 'users.roles')->where('user_id', $user)->get();
+        if(!$favorite){
+            return response()->json([
+                'message' => 'Favorite Empty!',
+            ], 200);
+        }
+
+        return FavoriteResource::collection($favorite);
     }
 }
