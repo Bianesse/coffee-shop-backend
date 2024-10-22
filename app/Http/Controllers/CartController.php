@@ -32,7 +32,7 @@ class CartController extends Controller
         $price = $count->price_request($request, false, $id);
         $user = auth()->user();
         
-        $cartitem = CartItem::where('coffeeId', $id)->where('size', $request->size)->first();
+        $cartitem = CartItem::where('coffeeId', $id)->where('size', $request->size)->where('user_id', $user->id)->first();
         if (!empty($cartitem)) {
             if ($cartitem->coffeeId == $id && $cartitem->size == $request->size) {
                 $newQty = $cartitem->quantity + $request->quantity;
@@ -46,7 +46,7 @@ class CartController extends Controller
         $add = CartItem::create([
             "user_id" => $user->id,
             'coffeeId' => $id,
-            'size' => $request->size,
+            'size' => strtoupper($request->size),
             'quantity' => $request->quantity,
             'subtotal' => $request->quantity * $price,
         ]);
