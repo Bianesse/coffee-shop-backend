@@ -21,6 +21,7 @@ class TransactionSeeder extends Seeder
                 'paymentAmount' => 100000,
                 'change' => 0,
                 'transaction_date' => now(),
+                'payment_method' => 'Cash',
             ],
             [
                 'orderId' => 'ORD212',
@@ -29,6 +30,7 @@ class TransactionSeeder extends Seeder
                 'paymentAmount' => 150000,
                 'change' => 30000,
                 'transaction_date' => now(),
+                'payment_method' => 'Transfer',
             ],
             [
                 'orderId' => 'ORD132',
@@ -37,6 +39,7 @@ class TransactionSeeder extends Seeder
                 'paymentAmount' => 50000,
                 'change' => 5000,
                 'transaction_date' => now(),
+                'payment_method' => 'Qris',
             ],
         ]);
     }

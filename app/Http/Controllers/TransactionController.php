@@ -34,6 +34,7 @@ class TransactionController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'money' => 'required',
+            'payment_method' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 422);
@@ -63,6 +64,7 @@ class TransactionController extends Controller
             "total" => $total,
             "paymentAmount" => $request->money,
             "change" => $request->money-$total,
+            "payment_method" => $request->payment_method,
             "transaction_date" => date('Y-m-d H:i:s'),
         ]);
 

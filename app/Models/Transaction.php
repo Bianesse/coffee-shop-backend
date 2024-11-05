@@ -16,6 +16,7 @@ class Transaction extends Model
         'total',
         'paymentAmount',
         'change',
+        'payment_method',
     ];
 
     public function transactionItems()
