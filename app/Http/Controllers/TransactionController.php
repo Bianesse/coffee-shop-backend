@@ -98,4 +98,22 @@ class TransactionController extends Controller
         $cart = $this->getCart();
         return new CartCollection($cart);
     }
+
+    public function destroy($id)
+    {
+        $transaction = Transaction::find($id);
+        $transaction->delete();
+        return response()->json([
+            'message' => 'Transaction deleted successfully',
+        ]);
+    }
+
+    public function restore($id)
+    {
+        $transaction = Transaction::withTrashed()->find($id);
+        $transaction->restore();
+        return response()->json([
+            'message' => 'Transaction restored successfully',
+        ]);
+    }
 }

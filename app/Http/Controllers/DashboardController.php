@@ -22,7 +22,7 @@ class DashboardController extends Controller
          // Calculate totals
          $coffeeCount = Coffee::count();
          $totalSold = $items->sum('quantity');
-         $revenue = $items->sum('subtotal');
+         $revenue = Transaction::sum('total');
      
          // Most and least popular coffee in one query using aggregate functions
          $popularity = TransactionItem::select('coffeeId')

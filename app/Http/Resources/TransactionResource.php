@@ -21,6 +21,7 @@ class TransactionResource extends JsonResource
             'total' => $this->total,
             'paymentAmount' => $this->paymentAmount,
             'change' => $this->change,
+            'paymentMethod' => ucfirst($this->payment_method),
             'transactionDate' => $this->transaction_date,
             'items' => TransactionItemResource::collection($this->transactionItems ?? []),
         ];
