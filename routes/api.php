@@ -44,6 +44,8 @@ Route::middleware(['auth.api', 'role.api:1'])->group(function () {
         Route::get('/users', [UserController::class, 'users'])->name('users');
         Route::delete('/users/delete/{id}', [UserController::class, 'destroy'])->name('delete.users');
         Route::post('/users/update/{id}', [UserController::class, 'update'])->name('update.users');
+        Route::delete('/transaction/delete/{id}', [TransactionController::class, 'destroy'])->name('delete.transaction');
+        Route::put('/transaction/restore/{id}', [TransactionController::class, 'restore'])->name('restore.transaction');
     });
 });
 
