@@ -17,7 +17,7 @@ class DashboardController extends Controller
      public function index()
      {
          // Get all items and their total quantity and subtotal
-         $items = TransactionItem::with('coffees')->get(); // Eager load the coffee relationship`
+         $items = TransactionItem::with('coffees')->get(); // Eager load the coffee relationship
      
          // Calculate totals
          $coffeeCount = Coffee::count();
