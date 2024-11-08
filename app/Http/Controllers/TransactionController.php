@@ -89,7 +89,14 @@ class TransactionController extends Controller
 
     public function logs()
     {
-        $transactions = Transaction::with('transactionItems.coffees.prices')->get();
+        $user = auth()->user();
+
+        //based on roll
+        if ($user->role == 1) {
+            $transactions = Transaction::with('transactionItems.coffees.prices')->get();
+        } else {
+            $transactions = Transaction::with('transactionItems.coffees.prices')->where('user_id', $user->id)->get();
+        }
         return new TransactionCollection($transactions);
     }
 
