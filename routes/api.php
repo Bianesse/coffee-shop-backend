@@ -52,13 +52,16 @@ Route::middleware(['auth.api', 'role.api:1'])->group(function () {
 
 //Cashier
 Route::middleware(['auth.api', 'role.api:2'])->group(function () {
-    Route::post("/transaction", [TransactionController::class, "index"])->name("addTransaction");
-
-    Route::get("/cashier", function () {
-        return response()->json([
-            'message' => 'You are Cashier'
-        ]);
+    Route::prefix('/cashier')->group(function () {
+        Route::get("/", function () {
+            return response()->json([
+                'message' => 'You are Cashier'
+            ]);
+        });
+        Route::get("/transaction", [TransactionController::class, "logs"])->name("cashier.transaction.log");
     });
+
+    Route::post("/transaction", [TransactionController::class, "index"])->name("addTransaction");
 });
 
 //Cashier, User
